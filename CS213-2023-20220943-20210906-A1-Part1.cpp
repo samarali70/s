@@ -1,4 +1,4 @@
-// FCAI – OOP Programming – 2023 - Assignment 1
+// FCAI â€“ OOP Programming â€“ 2023 - Assignment 1
 // Program Name:	team.cpp
 // Last Modification Date:	10/10/2023
 // Author1 and ID and Group:	Tibian Tarig 20220943
@@ -18,7 +18,7 @@ unsigned char image[SIZE][SIZE];
 unsigned char image1[SIZE][SIZE];
 unsigned char image2[SIZE][SIZE];
 int num;
-
+int x;
 void loadImage ();
 void loadImage2 ();
 void menuDisplay ();
