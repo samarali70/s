@@ -1,0 +1,52 @@
+# depslib dependency file v1.0
+1696953873 source:c:\users\samar\documents\code blocks\tibian\cc\main.cpp
+	<iostream>
+	<fstream>
+	<cstring>
+	<cmath>
+	"bmplib.cpp"
+	"bmplib.h"
+
+1696689160 c:\users\samar\documents\code blocks\tibian\cc\bmplib.cpp
+	<stdio.h>
+	<iostream>
+	<cstdlib>
+	"bmplib.h"
+	"unistd.h"
+
+1696689160 c:\users\samar\documents\code blocks\tibian\cc\bmplib.h
+
+1696956131 source:c:\users\samar\desktop\cc\main.cpp
+	<iostream>
+	<fstream>
+	<cstring>
+	<cmath>
+	"bmplib.cpp"
+	"bmplib.h"
+
+1696689160 c:\users\samar\desktop\cc\bmplib.cpp
+	<stdio.h>
+	<iostream>
+	<cstdlib>
+	"bmplib.h"
+	"unistd.h"
+
+1696689160 c:\users\samar\desktop\cc\bmplib.h
+
+1696956131 source:c:\users\samar\desktop\cs213-2023-20220943-20210906-yourid-a1-part1\main.cpp
+	<iostream>
+	<fstream>
+	<cstring>
+	<cmath>
+	"bmplib.cpp"
+	"bmplib.h"
+
+1696689160 c:\users\samar\desktop\cs213-2023-20220943-20210906-yourid-a1-part1\bmplib.cpp
+	<stdio.h>
+	<iostream>
+	<cstdlib>
+	"bmplib.h"
+	"unistd.h"
+
+1696689160 c:\users\samar\desktop\cs213-2023-20220943-20210906-yourid-a1-part1\bmplib.h
+
