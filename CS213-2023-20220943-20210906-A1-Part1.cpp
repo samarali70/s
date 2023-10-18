@@ -6,19 +6,21 @@
 // Teacher:		Dr. Mohammad El-Ramly
 // Purpose: Learning more about coding in the c++ language
 
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
 #include <cmath>
 #include "bmplib.cpp"
 #include "bmplib.h"
+#include <regex>
 
 using namespace std;
 unsigned char image[SIZE][SIZE];
 unsigned char image1[SIZE][SIZE];
 unsigned char image2[SIZE][SIZE];
 int num;
-int x;
+
 void loadImage ();
 void loadImage2 ();
 void menuDisplay ();
@@ -32,6 +34,15 @@ void dorl();
 void edge();
 void enlarge();
 void shrink();
+void blur();
+void mirror();
+void addImage();
+void q1();
+void q2();
+void q3();
+void q4();
+void shuffle();
+
 
 int main(){
   loadImage();
@@ -97,7 +108,9 @@ void menuDisplay() {
     cout<<"7- Find Image Edges"<<endl;
     cout<<"8- Enlarge Image"<<endl;
     cout<<"9- Shrink Image"<<endl;
-
+    cout<<"10-Blur image"<<endl;
+    cout<<"11-Mirror"<<endl;
+    cout<<"12-Shuffle"<<endl;
     cin>>num;
 if (num==1){
     BW();
@@ -126,7 +139,17 @@ else if (num==8){
 else if (num==9){
     shrink() ;
 }
+else if (num==10){
+    blur() ;
+}
+else if (num==11){
+    mirror() ;
+}
+else if (num==12){
+    shuffle() ;
+}
 else if(num==0){
+
     exit(0) ;
 }
 }
@@ -432,7 +455,166 @@ void shrink(){
    }
    }
 
+
     }
+
+    void mirror(){
+        int m;
+        cout<<"Choose number to mirror half 1-Left, 2-Right, 3-Upper, 4-Lower: ";
+        cin>> m;
+
+         if(m==1){
+    //Left
+    for (int i = 0; i < SIZE; i++) {
+    for (int j = 128; j< SIZE; j++) {
+        image[i][j]=image[i][abs(j-255)];}}}
+
+         else if(m==2){
+    //Right
+    for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j< 128; j++) {
+        image[i][j]=image[i][abs(j-255)];}}}
+
+         else if(m==3){
+    //Upper
+    for (int i = 127; i < SIZE; i++) {
+    for (int j = 0; j< SIZE; j++) {
+        image[i][j]=image[abs(i-255)][j];}}}
+
+         else if(m==4){
+    //Lower
+    for (int i = 0; i < 128; i++) {
+    for (int j = 0; j< SIZE; j++) {
+        image[i][j]=image[abs(i-255)][j];}}}}
+
+void addImage(){
+       for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++) {
+        image[i][j]+= image2[i][j];
+        }
+}}
+
+
+void q1(){
+        for (int i = 0; i < 128; i++) {
+        for (int j = 0; j< 128; j++){
+        image2[i][j]=0;}}
+        for (int i = 0; i < 128; i++) {
+        for (int j = 0; j< 128; j++){
+                image2[i][j]=image1[i][j];
+                }
+    }
+    addImage();
+    }
+void q2(){
+        for (int i = 0; i < 128; i++) {
+        for (int j = 0; j< 128; j++){
+        image2[i][j]=0;}}
+        for (int i = 0; i < 128; i++) {
+        for (int j = 127; j< 255; j++){
+                image2[i][j]=image1[i][j];
+                }
+    }
+    addImage();
+    }
+void q3(){
+        for (int i = 0; i < 128; i++) {
+        for (int j = 0; j< 128; j++){
+        image2[i][j]=0;}}
+        for (int i = 127; i < 255; i++) {
+        for (int j = 0; j< 128; j++){
+                image2[i][j]=image1[i][j];
+                }
+    }
+    addImage();
+    }
+void q4(){
+        for (int i = 0; i < 128; i++) {
+        for (int j = 0; j< 128; j++){
+        image2[i][j]=0;}}
+        for (int i = 127; i < 255; i++) {
+        for (int j = 127; j< 255; j++){
+                image2[i][j]=image1[i][j];
+                }
+    }
+    addImage();
+    }
+
+
+
+
+void shuffle(){
+        for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++){
+        image1[i][j]=image[i][j];}}
+
+        for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j< SIZE; j++){
+        image[i][j]=0;}}
+cout<<"Enter the order of images: ";
+int a[4];
+for (int i = 0; i <=3; i++) {
+        cin>>a[i];}
+
+for (int i = 0; i <=3; i++) {
+switch(a[i]){
+    case 1:
+    q1();
+    case 2:
+    q2();
+    case 3:
+    q3();
+    case 4:
+    q4();
+}}}
+
+
+
+    void blur() {
+    string radius_;
+    cout << "Please enter the radius you want to blur your image with:\n";
+    // Taking radius input from user
+    cin >> radius_;
+    regex validChoice("0*[1-9][0-9]*");
+    while (!regex_match(radius_, validChoice)) {
+        cout << "Please enter a valid radius:\n";
+        cin >> radius_;
+    }
+
+    int radius = stoi(radius_);
+
+    for (int i = radius; i < SIZE -
+                             radius; i++) { // loop for every possible row that has the needed radius around (without going out of boundaries)
+        for (int j = radius; j < SIZE -
+                                 radius; j++) { // loop for every possible column that has the needed radius around (without going out of boundaries)
+
+            // ave variable to calculate the color of the blurred pixel by getting the average color of a group of pixels
+            int ave = 0;
+
+            // adding the color of these group of pixels then diving by the number of them
+            for (int k = i - radius; k <= i + radius; k++) {
+                for (int l = j - radius; l <= j + radius; l++) {
+                    ave += image[k][l];
+                }
+            }
+            ave /= (2 * radius + 1) * (2 * radius + 1);
+
+            // filling the correspondent pixels with the blurred average in the new image
+            for (int k = i - radius; k <= i + radius; k++) {
+                for (int l = j - radius; l <= j + radius; l++) {
+                    image2[k][l] = ave;
+                }
+            }
+
+        }
+    }
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = image2[i][j];
+        }
+    }
+}
+
 
 
 
