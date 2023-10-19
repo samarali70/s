@@ -32,6 +32,7 @@ void dorl();
 void edge();
 void enlarge();
 void shrink();
+void shuffle();
 
 int main(){
   loadImage();
