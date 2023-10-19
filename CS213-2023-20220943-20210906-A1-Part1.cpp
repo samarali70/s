@@ -38,7 +38,7 @@ void blur();
 void mirror();
 void shuffle();
 void crop();
-void skew(); 
+void skew();
 
 
 int main(){
@@ -189,7 +189,7 @@ void mergeImage(){
         loadImage2();
        for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j< SIZE; j++) {
-                image1[i][j]= image[i][j];
+                image1[i][j]= image[i][j]; //move image to image1
         image[i][j]= (image1[i][j]+image2[i][j])/2;
         }
 }}
@@ -462,7 +462,7 @@ void shrink(){
         int m;
         cout<<"Choose number to mirror half 1-Left, 2-Right, 3-Upper, 4-Lower: ";
         cin>> m;
- 
+
          if(m==1){
     //Left
     for (int i = 0; i < SIZE; i++) {
@@ -538,63 +538,29 @@ int l;
 cout<<"Enter the square length i\n pixels you want to crop the rest: ";
 cin>>l;
 int k=(256-l)/2;
-    for (int i = 0; i <SIZE ; i++) {
+    for (int i = 0; i <SIZE ; i++) { //crop the left part
     for (int j = 0; j<k; j++) {
         image[i][j]=255;}}
-    for (int i = 0; i <SIZE ; i++) {
+    for (int i = 0; i <SIZE ; i++) { //crop the right part
     for (int j = l+k; j<SIZE; j++){
         image[i][j]=255;}}
-    for (int j =0; j<SIZE; j++) {
+    for (int j =0; j<SIZE; j++) { //crop the top part
     for (int i = 0; i <k; i++) {
         image[i][j]=255;}}
-    for (int j = 0; j<SIZE; j++){
+    for (int j = 0; j<SIZE; j++){ //crop the bottom part
     for (int i =l+k; i <SIZE; i++) {
         image[i][j]=255;}}
 }
 
-void flip() {
-    cout << "Flip (h)orizontally or (v)ertically ?"
-            "\n>>";
-    char choice;
-    cin >> choice;
-    if (tolower(choice) == 'v') {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                new_image[i][j] = image[255 - i][j];
-            }
-        }
-    } else if (tolower(choice) == 'h') {
-
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                new_image[i][j] = image[i][255 - j];
-            }
-        }
-    }
-    for (int i = 0; i < SIZE; i++) {
-        for (int j = 0; j < SIZE; j++) {
-            image[i][j] = new_image[i][j];
-        }
-    }
-    saved = false;
-}
-
-void horizontal() {
-  for (int i = 0; i < SIZE; i++) {
-    for (int j = 0; j< SIZE; j++) {
-
-    }
-  }
-}
 
 
 //Skews the image to the desired size
 void skew(){
-    double radius ; 
+    double radius ;
     cin >> radius ;
-    radius = ( radius * 22 ) / ( 180 * 7 ) ;
+    radius = ( radius * 22 ) / ( 180 * 7 ) ; //convert from degrees to radian
     double mov = tan(radius) * 256 ;
-    double step = mov / SIZE ; // Steps to take for the image to move.
+    double step = mov / SIZE ; // Steps taken for the image to move
     unsigned char img[SIZE][SIZE+(int)mov]  ;
     for ( int i = 0 ; i < SIZE ; i++ )
         for ( int j = 0 ; j < SIZE ; j++ )
@@ -613,10 +579,10 @@ void skew(){
 }
 void shuffle () {
       string order;
-      unsigned char Quarter_1[SIZE][SIZE];
-      unsigned char Quarter_2[SIZE][SIZE];
-      unsigned char Quarter_3[SIZE][SIZE];
-      unsigned char Quarter_4[SIZE][SIZE];
+      unsigned char Q1[SIZE][SIZE];
+      unsigned char Q2[SIZE][SIZE];
+      unsigned char Q3[SIZE][SIZE];
+      unsigned char Q4[SIZE][SIZE];
       cout << "Enter the order of quarters you want the image to be ordered by :" << endl;
       getline(cin >> ws, order, '\n');
       for (int i = 0; i < order.length(); i++) {
@@ -626,18 +592,18 @@ void shuffle () {
           }
       }
       while(true) {
-          bool is_valid = true;
+          bool valid = true;
           if (order.length() == 4) {
-              for (int i = 0; i < 4; i++) {
-                  if (order[i] < '1' || order[i] > '4') {
-                      is_valid = false;
+            for (int i = 0; i < 4; i++) {
+            if (order[i] < '1' || order[i] > '4') {
+                      valid = false;
                   }
               }
-              if (is_valid) {
-                  break;
+              if (valid) {
+                  break; //Break if the user enters a number not between 1-4
               }
           }
-          cout << "Please enter a valid order :";
+          cout << "Enter a valid order :";
           getline(cin >> ws, order, '\n');
           for (int i = 0; i < order.length(); i++) {
               if (order[i] == ' ') {
@@ -648,79 +614,80 @@ void shuffle () {
       }
       for (int i = 0; i < 128; i++) {
           for (int j = 0; j < 128; j++) {
-            Quarter_1[i][j] = image[i][j];
+            Q1[i][j] = image[i][j];
           }
       }
       for (int i = 0; i < 128; i++) {
           for (int j = 128; j < 256; j++) {
-            Quarter_2[i][j] = image[i][j];
+            Q2[i][j] = image[i][j];
           }
       }
       for (int i = 128; i < 256; i++) {
           for (int j = 0; j < 128; j++) {
-            Quarter_3[i][j] = image[i][j];
+            Q3[i][j] = image[i][j];
 
           }
       }
       for (int i = 128; i < 256; i++) {
           for (int j = 128; j < 256; j++) {
-            Quarter_4[i][j] = image[i][j];
+            Q4[i][j] = image[i][j];
           }
       }
-      for (int k = 0; k < 4; k++) {
-          if (k == 0) {
+      //g is the order of entering the array of 4 numbers
+      for (int g = 0; g < 4; g++) {
+          if (g == 0) {
               for (int i = 0; i < 128; i++) {
                   for (int j = 0; j < 128; j++) {
                       if (order[0] == '1') {
-                          image2[i][j] = Quarter_1[i][j];
+                          image2[i][j] = Q1[i][j];
                       } else if (order[0] == '2') {
-                          image2[i][j] = Quarter_2[i][128 + j];
+                          image2[i][j] = Q2[i][128 + j];
                       } else if (order[0] == '3') {
-                          image2[i][j] = Quarter_3[128 + i][j];
+                          image2[i][j] = Q3[128 + i][j];
                       } else if (order[0] == '4') {
-                          image2[i][j] = Quarter_4[128 + i][128 + j];
+                          image2[i][j] = Q4[128 + i][128 + j];
                       }
                   }
               }
-          } else if (k == 1) {
+          } else if (g == 1) {
               for (int i = 0; i < 128; i++) {
                   for (int j = 128; j < 256; j++) {
                       if (order[1] == '1') {
-                          image2[i][j] = Quarter_1[i][j - 128];
+                          image2[i][j] = Q1[i][j - 128];
                       } else if (order[1] == '2') {
-                          image2[i][j] = Quarter_2[i][j];
+                          image2[i][j] = Q2[i][j];
                       } else if (order[1] == '3') {
-                          image2[i][j] = Quarter_3[128 + i][j - 128];
+                          image2[i][j] = Q3[128 + i][j - 128];
                       } else if (order[1] == '4') {
-                          image2[i][j] = Quarter_4[128 + i][j];
+                          image2[i][j] = Q4[128 + i][j];
                       }
                   }
               }
-          } else if (k == 2) {
+          } else if (g == 2) {
               for (int i = 128; i < 256; i++) {
                   for (int j = 0; j < 128; j++) {
                       if (order[2] == '1') {
-                          image2[i][j] = Quarter_1[i - 128][j];
+                          image2[i][j] = Q1[i - 128][j];
                       } else if (order[2] == '2') {
-                          image2[i][j] = Quarter_2[i - 128][128 + j];
+                          image2[i][j] = Q2[i - 128][128 + j];
                       } else if (order[2] == '3') {
-                          image2[i][j] = Quarter_3[i][j];
+                          image2[i][j] = Q3[i][j];
                       } else if (order[2] == '4') {
-                          image2[i][j] = Quarter_4[i][128 + j];
+                          image2[i][j] = Q4[i][128 + j];
                       }
                   }
               }
-          } else if (k == 3) {
+          } else if (g == 3) {
               for (int i = 128; i < 256; i++) {
                   for (int j = 128; j < 256; j++) {
                       if (order[3] == '1') {
-                          image2[i][j] = Quarter_1[i - 128][j - 128];
+                          image2[i][j] = Q1[i - 128][j - 128];
                       } else if (order[3] == '2') {
-image2[i][j] = Quarter_2[i - 128][j];
+                        image2[i][j] = Q2[i - 128][j];
                       } else if (order[3] == '3') {
-                          image2[i][j] = Quarter_3[i][j - 128];
+                          image2[i][j] = Q3[i][j - 128];
                       } else if (order[3] == '4') {
-                          image2[i][j] = Quarter_4[i][j];
+                          image2[i][j] = Q4[i][j];
                       }
                   }
               }
@@ -731,16 +698,7 @@ image2[i][j] = Quarter_2[i - 128][j];
               image[i][j] = image2[i][j];
           }
       }
-
-  }
-
-
-
-
-
-
-
-
+}
 
 
 
